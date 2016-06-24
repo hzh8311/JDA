@@ -2,5 +2,6 @@ build/
 data/
 model/
 script/
-
+tags
 config.json
+G*
