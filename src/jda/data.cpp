@@ -35,6 +35,7 @@ Mat_<int> DataSet::CalcFeatureValues(const vector<Feature>& feature_pool, \
 
     #pragma omp parallel for
     for (int j = 0; j < m; j++) {
+      //三种尺度
       const Mat& img = imgs[idx[j]];
       const Mat& img_half = imgs_half[idx[j]];
       const Mat& img_quarter = imgs_quarter[idx[j]];
@@ -343,7 +344,7 @@ void DataSet::MoreNegSamples(int pos_size, double rate) {
 }
 
 /*!
- * \breif get face from original image using bbox
+ * 简介: get face from original image using bbox
  * \note  if bbox out of range, fill the rest with black
  *
  * \param img     original image
@@ -488,7 +489,7 @@ void DataSet::LoadDataSet(DataSet& pos, DataSet& neg) {
 }
 
 /*!
- * \breif Write DataSet to binary file
+ * 简介: Write DataSet to binary file
  * \param data    DataSet
  * \param fout    binary file discriptor
  */
@@ -541,7 +542,7 @@ static void writeDataSet(const DataSet& data, FILE* fout) {
 }
 
 /*!
- * \breif Read DataSet from a binary file and initialize all memory
+ * 简介: Read DataSet from a binary file and initialize all memory
  * \note  nega_generator will be initialized in this function
  *
  * \param data    DataSet
@@ -673,7 +674,7 @@ NegGenerator::~NegGenerator() {
 }
 
 /*!
- * \breif hard negative mining with slide window over an image
+ * 简介: hard negative mining with slide window over an image
  * \param joincascador  joincascador
  * \param img           detection image
  * \param imgs          hard negative images

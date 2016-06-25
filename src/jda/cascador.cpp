@@ -31,19 +31,24 @@ JoinCascador::~JoinCascador() {
 }
 
 void JoinCascador::Train(DataSet& pos, DataSet& neg) {
+  //train 方法的实现
   this->pos = &pos;
   this->neg = &neg;
+
   const int start_of_stage = current_stage_idx;
+
   for (int t = start_of_stage; t < T; t++) {
     current_stage_idx = t;
     if (current_stage_idx != start_of_stage) {
       current_cart_idx = -1;
     }
+
     LOG("Train %d th stages", t + 1);
     TIMER_BEGIN
       btcarts[t].Train(pos, neg);
       LOG("End of train %d th stages, costs %.4lf s", t + 1, TIMER_NOW);
     TIMER_END
+
     LOG("Snapshot current Training Status");
     // snapshot
     DataSet::Snapshot(pos, neg);
@@ -52,6 +57,7 @@ void JoinCascador::Train(DataSet& pos, DataSet& neg) {
 }
 
 void JoinCascador::Snapshot() const {
+  /*为Cascador保存快照*/
   int stage_idx = current_stage_idx;
   int cart_idx = current_cart_idx;
   char buff1[256];

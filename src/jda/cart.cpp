@@ -80,7 +80,7 @@ void Cart::SplitNode(const DataSet& pos, const vector<int>& pos_idx, \
       }
     }
 
-    scores[idx] = 0.5*(log(pos_w) - log(neg_w));
+    scores[idx] = 0.5*(log(pos_w) - log(neg_w)); //equation (7)
     printf("Leaf % 3d has % 7d pos and % 7d neg. Score is %.4lf\n", \
            node_idx, pos_n, neg_n, scores[idx]);
     return;

@@ -10,7 +10,7 @@ namespace jda {
 class DataSet;
 class BoostCart;
 
-/*! \breif statisic of Detection */
+/*! 简介: statisic of Detection */
 class DetectionStatisic {
 public:
   DetectionStatisic()
@@ -25,12 +25,13 @@ public:
 };
 
 /*!
- * \breif JoinCascador for face classification and landmark regression
+ * 简介: JoinCascador for face classification and landmark regression
  */
 class JoinCascador {
+  /*提供train,Snapshot,Resume,SerializeTo,SerializeFrom方法*/
 public:
   /*!
-   * \breif default constructor
+   * 简介: default constructor
    *  This will establish the whole model with parameters from config
    */
   JoinCascador();
@@ -38,12 +39,12 @@ public:
 
 public:
   /*!
-   * \breif Train JoinCascador
+   * 简介: Train JoinCascador
    *  See Full Algorithm on paper `Algorithm 3`
    */
   void Train(DataSet& pos, DataSet& neg);
   /*!
-   * \breif Snapshot current model
+   * 简介: Snapshot current model
    *  Save all model parameters currently trained, this will be used for `Resume`.
    *  A model file will be save at `../model/jda_tmp_{%time%}_{stage}.model`,
    *  `%time%` is the saving time point format `%Y%m%D-%H%M%S` like `20151011-103625`
@@ -51,7 +52,7 @@ public:
    */
   void Snapshot() const;
   /*!
-   * \breif Resume the Training Status
+   * 简介: Resume the Training Status
    *  Resume the Training Status from a Snapshot model file. We will load the model
    *  parameters and check if the global parameters are the same as `Config`, if not,
    *  the program will be terminateed. After the parameters loaded, Positive Samples
@@ -62,19 +63,19 @@ public:
    */
   void Resume(FILE* fd);
   /*!
-   * \breif Write parameters to a binary file
+   * 简介: Write parameters to a binary file
    * \param   file discriptor of the model file
    */
   void SerializeTo(FILE* fd) const;
   /*!
-   * \breif Read parameters from a binary file
+   * 简介: Read parameters from a binary file
    * \param fd    file discriptor of the model file
    */
   void SerializeFrom(FILE* fd);
 
 public:
   /*!
-   * \breif Validate a region whether a face or not
+   * 简介: Validate a region whether a face or not
    *  In training state, we use this function for hard negative mining based on
    *  the training status. In testing state, we just go through all carts to get
    *  a face score for this region. The training status is based on `current_stage_idx`
@@ -91,7 +92,7 @@ public:
   bool Validate(const cv::Mat& img, const cv::Mat& img_h, const cv::Mat& img_q, \
                 double& score, cv::Mat_<double>& shape, int& n) const;
   /*!
-   * \breif Detect faces in a gray image
+   * 简介: Detect faces in a gray image
    *  Currently using Sliding Window to search face regions and Non-Maximum Suppression
    *  to group the regions, represented by cv::Rect. All shapes will be relocated in the
    *  original image.
@@ -109,25 +110,25 @@ public:
              std::vector<cv::Mat_<double> >& shapes, DetectionStatisic& statisic) const;
 
 public:
-  /*! \breif number of stages */
+  /*! 简介: number of stages */
   int T;
-  /*! \breif number of carts */
+  /*! 简介: number of carts */
   int K;
-  /*! \breif number of landmarks */
+  /*! 简介: number of landmarks */
   int landmark_n;
-  /*! \breif depth of a cart tree */
+  /*! 简介: depth of a cart tree */
   int tree_depth;
-  /*! \breif mean shape of positive training data */
+  /*! 简介: mean shape of positive training data */
   cv::Mat_<double> mean_shape;
-  /*! \breif carts */
+  /*! 简介: carts */
   std::vector<BoostCart> btcarts;
 
   /*!
-   * \breif training status
+   * 简介: training status
    *  we have trained the model to current_stage_idx and current_cart_idx
    *  (current_stage_idx, current_stage_idx) = (2, 99) means we have done with stage 0, 1
    *  we are currently on stage 2, we also have done with cart 0, 1, ..., 99. And we are about to
-   *  train 100th cart. If K == 100, that means we have done with stage 2, and we will do global
+   *  train 100th cart. If (weak classifier/regressor)K == 100, that means we have done with stage 2, and we will do global
    *  regression immediately. When `Snapshot` happens, these two variable will be saved to
    *  the model file to indicate current training status and will be used for further training
    *  or testing. (2, 99) for example. The model file will be `jda_xxxx_stage_3_cart_100.model`.
@@ -137,7 +138,7 @@ public:
    */
   int current_stage_idx;
   int current_cart_idx;
-  /*! \breif training data */
+  /*! 简介: training data */
   DataSet* pos;
   DataSet* neg;
 };

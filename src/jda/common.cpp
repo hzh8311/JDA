@@ -16,6 +16,7 @@ namespace jda {
 
 int Feature::CalcFeatureValue(const Mat& o, const Mat& h, const Mat& q, \
                               const Mat_<double>& s) const {
+  /*Pixel Difference vale */
   Mat img;
   switch (scale) {
   case ORIGIN:
