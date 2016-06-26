@@ -13,7 +13,7 @@ void dump();
 /*! \breif command help */
 static const char help[] = "Joint Cascade Face Detection and Alignment\n\n"
                            "train:  train JDA classifier and regressor for face detection\n"
-                           "        and face alignemnt\n"
+                           "        and face alignment \n"
                            "test:   test over your own data\n"
                            "resume: resume a previous training status\n"
                            "live:   live demo with camera support\n"
