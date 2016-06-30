@@ -20,6 +20,7 @@ DataSet::~DataSet() {}
 
 Mat_<int> DataSet::CalcFeatureValues(const vector<Feature>& feature_pool, \
                                      const vector<int>& idx) const {
+	//Calculate the whole dataset's pixel difference features
   const int n = feature_pool.size();
   const int m = idx.size();
 
@@ -47,6 +48,7 @@ Mat_<int> DataSet::CalcFeatureValues(const vector<Feature>& feature_pool, \
   return features;
 }
 
+// two override for calculate shape residue Delta S
 Mat_<double> DataSet::CalcShapeResidual(const vector<int>& idx) const {
   JDA_Assert(is_pos == true, "Negative Dataset can not use `CalcShapeResidual`");
   const int n = idx.size();
@@ -402,7 +404,7 @@ void DataSet::LoadPositiveDataSet(const string& positive) {
     for (int i = 0; i < 2 * landmark_n; i++) {
       fscanf(file, "%lf", ptr + i);
     }
-    gt_shapes.push_back(shape);
+    gt_shapes.push_back(shape);//ground truth shapes S
   }
   fclose(file);
 
