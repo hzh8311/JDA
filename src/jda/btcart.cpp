@@ -13,7 +13,7 @@ using namespace std;
 namespace jda {
 
 /*!
- * \breif draw the distribution of scores
+ * 简介 draw the distribution of scores
  * \note  scores should be in order
  */
 static void draw_density_graph(vector<double>& pos_scores, vector<double>& neg_scores, \
@@ -104,7 +104,7 @@ static void draw_density_graph(vector<double>& pos_scores, vector<double>& neg_s
 BoostCart::BoostCart(int stage) {
   const Config& c = Config::GetInstance();
   this->stage = stage;
-  K = c.K;
+  K = c.K;//1080
   carts.reserve(K);
   for (int i = 0; i < K; i++) {
     // distribute the landmarks
@@ -144,6 +144,7 @@ void BoostCart::Train(DataSet& pos, DataSet& neg) {
     const int kk = k + 1;
     Cart& cart = carts[k];
     if (neg.size < neg_th) {
+    	//let negative samples equal positive samples
       neg.MoreNegSamples(pos.size, c.nps[stage]);
       neg_th = int(neg.size * c.mining_th);
     }
@@ -279,7 +280,7 @@ void BoostCart::Train(DataSet& pos, DataSet& neg) {
 }
 
 /*!
- * \breif Fully Free Model from liblinear
+ * 简介 Fully Free Model from liblinear
  */
 static inline void freeModel(struct model* model) {
   free(model->w);

@@ -16,10 +16,10 @@ static int YO = 0;
 
 JoinCascador::JoinCascador() {
   const Config& c = Config::GetInstance();
-  T = c.T;
-  K = c.K;
+  T = c.T;//5
+  K = c.K;//1080
   landmark_n = c.landmark_n;
-  tree_depth = c.tree_depth;
+  tree_depth = c.tree_depth;//4
   current_stage_idx = 0;
   current_cart_idx = -1;
   btcarts.reserve(T);
@@ -57,7 +57,7 @@ void JoinCascador::Train(DataSet& pos, DataSet& neg) {
 }
 
 void JoinCascador::Snapshot() const {
-  /*为Cascador保存快照*/
+  // 为Cascador保存快照
   int stage_idx = current_stage_idx;
   int cart_idx = current_cart_idx;
   char buff1[256];

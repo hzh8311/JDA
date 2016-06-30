@@ -14,7 +14,7 @@ using namespace std;
 
 namespace jda {
 
-/*! \breif is zeros */
+/*! 简介 is zeros */
 static inline bool isZero(double num) {
   if (std::abs(num) < 1e-9) return true;
   else return false;
@@ -159,7 +159,7 @@ void Cart::SplitNode(const DataSet& pos, const vector<int>& pos_idx, \
 }
 
 /*!
- * \breif Calculate Entropy
+ * 简介 Calculate Entropy
  * \param p   p
  * \return    entropy
  */
@@ -249,7 +249,7 @@ void Cart::SplitNodeWithClassification(const DataSet& pos, const vector<int>& po
 }
 
 /*!
- * \breif Calculate Variance of vector
+ * 简介 Calculate Variance of vector
  */
 static double calcVariance(const vector<double>& vec) {
   if (vec.size() == 0) return 0.;
@@ -278,66 +278,6 @@ static void _qsort(T* a, int l, int r) {
   } while (i <= j);
   if (l < j) _qsort(a, l, j);
   if (i < r) _qsort(a, i, r);
-}
-
-void Cart::SplitNodeWithRegression(const DataSet& pos, const vector<int>& pos_idx, \
-                                   const DataSet& neg, const vector<int>& neg_idx, \
-                                   const Mat_<int>& pos_feature, \
-                                   const Mat_<double>& shape_residual, \
-                                   int& feature_idx, int& threshold) {
-  Config& c = Config::GetInstance();
-  const int feature_n = pos_feature.rows;
-  const int pos_n = pos_feature.cols;
-  feature_idx = 0;
-  threshold = -256; // all data will go to right child tree
-
-  if (pos_n == 0) {
-    return;
-  }
-
-  //Mat_<int> pos_feature_sorted;
-  //cv::sort(pos_feature, pos_feature_sorted, SORT_EVERY_ROW + SORT_ASCENDING);
-
-  // select a feature reduce maximum variance
-  vector<double> vs_(feature_n);
-  vector<int> ths_(feature_n);
-
-  #pragma omp parallel for
-  for (int i = 0; i < feature_n; i++) {
-    RNG& rng = c.rng_pool[omp_get_thread_num() + 1];
-
-    Mat_<int> pos_feature_sorted = pos_feature.row(i).clone();
-    _qsort<int>(pos_feature_sorted.ptr<int>(0), 0, pos_n - 1);
-
-    vector<double> left_x, left_y, right_x, right_y;
-    left_x.reserve(pos_n); left_y.reserve(pos_n);
-    right_x.reserve(pos_n); right_y.reserve(pos_n);
-    int threshold_ = pos_feature_sorted(0, int(pos_n*rng.uniform(0.1, 0.9)));
-    for (int j = 0; j < pos_n; j++) {
-      if (pos_feature(i, j) <= threshold_) {
-        left_x.push_back(shape_residual(j, 0));
-        left_y.push_back(shape_residual(j, 1));
-      }
-      else {
-        right_x.push_back(shape_residual(j, 0));
-        right_y.push_back(shape_residual(j, 1));
-      }
-    }
-    double variance_ = (calcVariance(left_x) + calcVariance(left_y))*left_x.size() + \
-                       (calcVariance(right_x) + calcVariance(right_y))*right_x.size();
-    vs_[i] = variance_;
-    ths_[i] = threshold_;
-  }
-
-  double variance_min = std::numeric_limits<double>::max();
-  for (int i = 0; i < feature_n; i++) {
-    if (vs_[i] < variance_min) {
-      variance_min = vs_[i];
-      threshold = ths_[i];
-      feature_idx = i;
-    }
-  }
-  // Done
 }
 
 void Cart::GenFeaturePool(vector<Feature>& feature_pool) {
