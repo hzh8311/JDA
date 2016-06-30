@@ -10,7 +10,7 @@ using namespace std;
 using namespace jda;
 
 /*!
- * \breif Train JoinCascador
+ * 简介 Train JoinCascador
  */
 void train() {
   Config& c = Config::GetInstance();
@@ -21,7 +21,7 @@ void train() {
   JoinCascador joincascador;
   joincascador.current_stage_idx = 0;
   joincascador.current_cart_idx = -1;
-  c.joincascador = &joincascador; // set global joincascador
+  c.joincascador = &joincascador; // set global jointcascador
 
   DataSet pos, neg;
   char data_file[] = "../data/jda_train_data.data";
@@ -48,7 +48,7 @@ void train() {
 }
 
 /*!
- * \breif Resume Training Status of JoinCascador
+ * \简介 Resume Training Status of JoinCascador
  * \note may not work now
  */
 void resume() {

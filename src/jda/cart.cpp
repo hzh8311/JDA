@@ -37,6 +37,7 @@ Cart::~Cart() {
 }
 
 void Cart::Train(const DataSet& pos, const DataSet& neg) {
+  // 训练CART 树
   vector<int> pos_idx, neg_idx;
   int pos_n = pos.size;
   int neg_n = neg.size;
@@ -54,7 +55,9 @@ void Cart::Train(const DataSet& pos, const DataSet& neg) {
 
 void Cart::SplitNode(const DataSet& pos, const vector<int>& pos_idx, \
                      const DataSet& neg, const vector<int>& neg_idx, \
-                     int node_idx) {
+                     int node_idx)
+// 分割节点
+{
   Config& c = Config::GetInstance();
   const int pos_n = pos_idx.size();
   const int neg_n = neg_idx.size();
