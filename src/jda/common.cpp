@@ -53,6 +53,7 @@ int Feature::CalcFeatureValue(const Mat& o, const Mat& h, const Mat& q, \
 }
 
 void LOG(const char* fmt, ...) {
+	// 输出日志
   va_list args;
   va_start(args, fmt);
   char msg[256];

@@ -76,6 +76,7 @@ void JoinCascador::Snapshot() const {
 }
 
 void JoinCascador::Resume(FILE* fd) {
+	// 恢复训练
   SerializeFrom(fd);
 }
 
